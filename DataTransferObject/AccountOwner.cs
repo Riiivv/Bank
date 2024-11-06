@@ -22,22 +22,4 @@ namespace Bank.DataTransferObject
             }
         }
     }
-
-    public sealed class AccountAdmin : Person
-    {
-        public int MedarbejderId { get; private set; }
-
-        public AccountAdmin(int medarbejderId, string fornavn, string efternavn) : base(fornavn, efternavn)
-        {
-            if (medarbejderId.ToString().Length == 6)
-            {
-                MedarbejderId = medarbejderId;
-            }
-            else
-            {
-                throw new ArgumentException("MedarbejderId skal være et 6-cifret tal.");
-            }
-        }
-    }
 }
-
