@@ -18,8 +18,8 @@ namespace Bank
             Console.WriteLine($"Startsaldo: {myAccount.GetBalance()} kr.");
 
             myAccount.Deposit(50);
-            myAccount.Withdraw(100);
-            myAccount.Withdraw(100);
+            Console.WriteLine(myAccount.Withdraw(100));
+            Console.WriteLine(myAccount.Withdraw(100));
 
             Console.WriteLine($"Slutsaldo: {myAccount.GetBalance()} kr.");
         }

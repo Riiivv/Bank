@@ -34,36 +34,33 @@ namespace Bank.DataTransferObject
             return $"Din konto er blevet opdateret. Der står nu kr. {balance}";
         }
 
-        public void Deposit(decimal amount)
+        public string Deposit(decimal amount)
         {
             if (amount > 0)
             {
                 balance += amount;
-                Console.WriteLine($"Indsat {amount} kr. {GetUpdateMessage()}");
+                return $"Indsat {amount} kr. {GetUpdateMessage()}";
             }
             else
             {
-                Console.WriteLine("Indsætningsbeløbet skal være positivt.");
+                return "Indsætningsbeløbet skal være positivt.";
             }
         }
 
-        public void Withdraw(decimal amount)
+        public string Withdraw(decimal amount)
         {
             if (amount > 0)
             {
                 if (balance - amount >= MinimumBalance)
                 {
                     balance -= amount;
-                    Console.WriteLine($"Trukket {amount} kr. {GetUpdateMessage()}");
+                    return $"Trukket {amount} kr. {GetUpdateMessage()}";
                 }
-                else
-                {
-                    Console.WriteLine("Ikke tilstrækkelig saldo til denne transaktion.");
-                }
+                return "";
             }
             else
             {
-                Console.WriteLine("Udbetalingsbeløbet skal være positivt.");
+                return "Udbetalingsbeløbet skal være positivt.";
             }
         }
 
@@ -71,6 +68,7 @@ namespace Bank.DataTransferObject
         {
             return balance;
         }
+
     }
 }
 
