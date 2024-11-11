@@ -17,9 +17,29 @@ namespace Bank
             Console.WriteLine($"Administrator: {myAccount.Admin.FuldeNavn}");
             Console.WriteLine($"Startsaldo: {myAccount.GetBalance()} kr.");
 
-            myAccount.Deposit(50);
-            Console.WriteLine(myAccount.Withdraw(100));
-            Console.WriteLine(myAccount.Withdraw(100));
+            // Indtast beløb til indbetaling
+            Console.WriteLine("Indtast beløb for indbetaling:");
+            string depositInput = Console.ReadLine();
+            if (decimal.TryParse(depositInput, out decimal depositAmount))
+            {
+                Console.WriteLine(myAccount.Deposit(depositAmount));
+            }
+            else
+            {
+                Console.WriteLine("Ugyldigt beløb for indbetaling. Prøv igen med et gyldigt tal.");
+            }
+
+            // Indtast beløb for hævning
+            Console.WriteLine("Indtast beløb for hævning:");
+            string withdrawInput = Console.ReadLine();
+            if (decimal.TryParse(withdrawInput, out decimal withdrawAmount))
+            {
+                Console.WriteLine(myAccount.Withdraw(withdrawAmount));
+            }
+            else
+            {
+                Console.WriteLine("Ugyldigt beløb for hævning. Prøv igen med et gyldigt tal.");
+            }
 
             Console.WriteLine($"Slutsaldo: {myAccount.GetBalance()} kr.");
         }

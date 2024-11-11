@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System;
+using System.Linq.Expressions;
 
 namespace Bank.DataTransferObject
 {
@@ -36,34 +37,66 @@ namespace Bank.DataTransferObject
 
         public string Deposit(decimal amount)
         {
-            if (amount > 0)
+
+
+            try
             {
+                if (amount <= 0)
+                {
+
+                    throw new ArgumentException("Indsætning af beløbet kan ikke være negativt");
+                }
                 balance += amount;
                 return $"Indsat {amount} kr. {GetUpdateMessage()}";
             }
-            else
+            catch (ArgumentException ex)
             {
-                return "Indsætningsbeløbet skal være positivt.";
+                return $"fejl ved Indsætning: {ex.Message}";
+            }
+            finally
+            {
+                // Denne kode vil altid køre, uanset om der opstod en fejl eller ej. 
+                //det er ikke muligt at ''return'' en finally block
+                Console.WriteLine($"Aktuel saldo: {GetBalance()} kr.");
             }
         }
 
         public string Withdraw(decimal amount)
         {
-            if (amount > 0)
+            try
             {
-                if (balance - amount >= MinimumBalance)
+                if (amount <= 0)
                 {
-                    balance -= amount;
-                    return $"Trukket {amount} kr. {GetUpdateMessage()}";
+                    // Kast en exception, hvis beløbet er 0 eller negativt
+                    throw new ArgumentException("Udbetaling af beløbet kan ikke være 0 eller negativt.");
                 }
-                return "";
+
+                if (balance - amount < MinimumBalance)
+                {
+                    throw new InvalidOperationException("Ikke tilstrækkelig saldo til at gennemføre hævningen.");
+                }
+
+                balance -= amount;
+                return $"Trukket {amount} kr. {GetUpdateMessage()}";
             }
-            else
+            catch (ArgumentException ex)
             {
-                return "Udbetalingsbeløbet skal være positivt.";
+                return $"Fejl ved hævning: {ex.Message}";
+            }
+            catch (InvalidOperationException ex)
+            {
+                    return $"Fejl ved hævning: {ex.Message}";
+            }
+            catch (Exception ex)
+            {
+                return $"Der opstod en fejl: {ex.Message}";
+            }
+            finally
+            {
+                // Denne kode vil altid køre, uanset om der opstod en fejl eller ej.
+                Console.WriteLine($"Aktuel saldo: {GetBalance()} kr.");
             }
         }
-
         public decimal GetBalance()
         {
             return balance;
